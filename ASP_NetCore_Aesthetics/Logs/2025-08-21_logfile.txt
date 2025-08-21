@@ -1,0 +1,2 @@
+2025-08-21 16:47:41.0906 INFO GetList_SearchClinic Request: {"ClinicID":0,"ClinicName":"string","ProductsOfServicesID":0,"ProductsOfServicesName":"string"}
+2025-08-21 16:47:41.2545 INFO GetList_SearchClinic db: []
