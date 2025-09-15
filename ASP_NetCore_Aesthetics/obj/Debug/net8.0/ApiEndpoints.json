@@ -364,9 +364,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "searchText",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "request",
+        "Type": "Aesthetics.DTO.NetCore.RequestData.ChatBoxRequest",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

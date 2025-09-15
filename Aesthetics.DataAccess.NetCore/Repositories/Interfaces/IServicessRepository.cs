@@ -41,5 +41,8 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Interfaces
 
 		//9.Funciton Get Services By NameServicess
 		Task<List<Servicess>> SearchServicesAsync(string keywords);
+
+		//10. Funciotn get Services By ServicessName
+		Task<int> GetServicessByServicesName(string? ServicesName);
 	}
 }

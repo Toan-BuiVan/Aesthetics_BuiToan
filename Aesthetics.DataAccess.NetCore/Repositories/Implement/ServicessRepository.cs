@@ -74,6 +74,14 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 			return await _context.Servicess.Where(s => s.ServiceID == ServicesID && s.DeleteStatus == 1).FirstOrDefaultAsync();
 		}
 
+		public async Task<int> GetServicessByServicesName(string? ServicesName)
+		{
+			return await _context.Servicess
+				.Where(s => s.ServiceName == ServicesName && s.DeleteStatus == 1)
+				.Select(s => s.ServiceID)
+				.FirstOrDefaultAsync();
+		}
+
 		public async Task<TypeProductsOfServices> GetProductOfServicesByID(int? ProductsOfServicesID)
 		{
 			return await _context.TypeProductsOfServices.Where(s => s.ProductsOfServicesID == ProductsOfServicesID
