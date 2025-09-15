@@ -29,7 +29,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		//[ServiceFilter(typeof(Filter_CheckToken))]
-		//[Filter_Authorization("Create_Account", "INSERT")]
+		//[Filter_Authorization("Create_Account")]
 		[HttpPost("Create_Account")]
 		public async Task<IActionResult> Create_Account(User_CreateAccount account)
 		{
@@ -61,7 +61,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_User", "UPDATE")]
+		[Filter_Authorization("Update_User")]
 		[HttpPost("Update_User")]
 		public async Task<IActionResult> Update_User(User_Update user_)
 		{
@@ -89,7 +89,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("ChangePassword", "UPDATE")]
+		[Filter_Authorization("ChangePassword")]
 		[HttpPost("ChangePassword")]
 		public async Task<IActionResult> ChangePassword(changePassword password)
 		{
@@ -117,7 +117,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_User", "DELETE")]
+		[Filter_Authorization("Delete_User")]
 		[HttpDelete("Delete_User")]
 		public async Task<IActionResult> Delete_User(User_Delete delete_)
 		{
@@ -155,7 +155,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetList_SearchUser", "VIEW")]
+		[Filter_Authorization("GetList_SearchUser")]
 		[HttpPost("GetList_SearchUser")]
 		public async Task<IActionResult> GetList_SearchUser(GetList_SearchUser getList_)
 		{

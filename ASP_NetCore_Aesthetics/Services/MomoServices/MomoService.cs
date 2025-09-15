@@ -74,7 +74,6 @@ namespace ASP_NetCore_Aesthetics.Services.MomoServices
 			};
 		}
 
-
 		private string ComputeHmacSha256(string message, string secretKey)
 		{
 			var keyBytes = Encoding.UTF8.GetBytes(secretKey);

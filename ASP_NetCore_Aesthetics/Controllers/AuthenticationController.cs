@@ -3,6 +3,7 @@ using Aesthetics.DataAccess.NetCore.DBContext;
 using Aesthetics.DataAccess.NetCore.Repositories.Interface;
 using Aesthetics.DTO.NetCore.RequestData;
 using Aesthetics.DTO.NetCore.TokenModel;
+using ASP_NetCore_Aesthetics.Services.IoggerServices;
 using BE_102024.DataAces.NetCore.DataOpject.RequestData;
 using BE_102024.DataAces.NetCore.DataOpject.TokenModel;
 using Microsoft.AspNetCore.Authentication;
@@ -28,9 +29,10 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		private DB_Context _context;
 		private readonly IDistributedCache _cache;
 		private IUserRepository _userRepository;
+		private readonly ILoggerManager _loggerManager;
 		public AuthenticationController(IAccountRepository accountRepository,
 			IConfiguration configuration, DB_Context context, IDistributedCache cache, 
-			IUserSessionRepository userSession, IUserRepository userRepository)
+			IUserSessionRepository userSession, IUserRepository userRepository, ILoggerManager loggerManager)
 		{
 			_accountRepository = accountRepository;
 			_configuration = configuration;
@@ -38,6 +40,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			_cache = cache;
 			_userSession = userSession;
 			_userRepository = userRepository;
+			_loggerManager = loggerManager;
 		}
 
 		[HttpPost("Login_Account")]
@@ -51,6 +54,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				{
 					responseData.ResponseCode = -1;
 					responseData.ResposeMessage = "Đăng Nhập Thất Bại, Vui Lòng Kiểm Tra Lại UserName || PassWord!";
+					_loggerManager.LogWarn($"Response: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 					return Ok(responseData);
 				}
 				//Tạo Token
@@ -119,12 +123,14 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				responseData.UserName = user.UserName;
 				responseData.Token = new JwtSecurityTokenHandler().WriteToken(newToken);
 				responseData.RefreshToken = refeshToken;
+				_loggerManager.LogInfo($"Login successful: {responseData}");
 				return Ok(responseData);
 			}
 			catch (Exception ex)
 			{
 				responseData.ResponseCode = -99;
 				responseData.ResposeMessage = ex.Message;
+				_loggerManager.LogError($"Login Exception Error: '{ex.Message}'. StackTrace: {ex.StackTrace}");
 				return Ok(responseData);
 			}
 		}
@@ -153,6 +159,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 					{
 						responeData.ResponseCode = -1;
 						responeData.ResposeMessage = "Token hết hạn, Vui lòng đăng nhập lại!";
+						_loggerManager.LogWarn($"Response: Code={responeData.ResponseCode}, Message={responeData.ResposeMessage}");
 						return Ok(responeData);
 					}
 
@@ -163,6 +170,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 					{
 						responeData.ResponseCode = -1;
 						responeData.ResposeMessage = "Token không hợp lệ!";
+						_loggerManager.LogWarn($"Response: Code={responeData.ResponseCode}, Message={responeData.ResposeMessage}");
 						return Ok(responeData);
 					}
 					//2.2.1 Check RefreshToken và ngày hết hạn
@@ -178,6 +186,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 					{
 						responeData.ResponseCode = -1;
 						responeData.ResposeMessage = "Token không hợp lệ!";
+						_loggerManager.LogWarn($"Response: Code={responeData.ResponseCode}, Message={responeData.ResposeMessage}");
 						return Ok(responeData);
 					}
 					var newToken = await _accountRepository.CreateToken(principal.Claims.ToList());
@@ -190,16 +199,19 @@ namespace ASP_NetCore_Aesthetics.Controllers
 					responeData.ResposeMessage = "Tạo mới Token thành công";
 					responeData.Token = new JwtSecurityTokenHandler().WriteToken(newToken);
 					responeData.RefreshToken = newRefreshToken;
+					_loggerManager.LogInfo($"Refreash token successful responseData: {responeData}");
 					return Ok(responeData);
 				}
 				responeData.ResponseCode = 1;
 				responeData.ResposeMessage = "Token vẫn còn thời hạn hoạt động!";
+				_loggerManager.LogWarn($"Response: Code={responeData.ResponseCode}, Message={responeData.ResposeMessage}");
 				return Ok(responeData);
 			}
 			catch (Exception ex)
 			{
 				responeData.ResponseCode = -99;
 				responeData.ResposeMessage = ex.Message;
+				_loggerManager.LogError($"Refreah Token Exception Error: '{ex.Message}'. StackTrace: {ex.StackTrace}");
 				return Ok(responeData);
 			}
 		}
@@ -265,6 +277,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 			catch (Exception ex)
 			{
+				
 				return Ok(ex);
 			}
 		}
@@ -279,6 +292,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				{
 					responseData.ResponseCode = -1;
 					responseData.ResposeMessage = "Token không hợp lệ";
+					_loggerManager.LogWarn($"Response LogOut_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 					return Ok(responseData);
 				}
 				//1.Xóa Token trong Caching:
@@ -288,6 +302,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				{
 					responseData.ResponseCode = -1;
 					responseData.ResposeMessage = "Token không hợp lệ";
+					_loggerManager.LogWarn($"Response LogOut_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 					return Ok(responseData);
 				}
 
@@ -297,6 +312,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				{
 					responseData.ResponseCode = -1;
 					responseData.ResposeMessage = "Token truyền lên không hợp lệ";
+					_loggerManager.LogWarn($"Response LogOut_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 					return Ok(responseData);
 				}
 				//Lấy dữ liệu từ Redis => LogOut trên 1 thiết bị
@@ -306,6 +322,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				await _userSession.Delele_Session(token.AccessToken, user.UserID);
 				responseData.ResponseCode = 1;
 				responseData.ResposeMessage = "Đăng xuất thành công";
+				_loggerManager.LogInfo($"Response LogOut_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 				return Ok(responseData);
 
 			}
@@ -313,6 +330,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			{
 				responseData.ResponseCode = -99;
 				responseData.ResposeMessage = ex.Message;
+				_loggerManager.LogError($"LogOut_Account Error: '{ex.Message}'. StackTrace: {ex.StackTrace}");
 				return Ok(responseData);
 			}
 		}
@@ -326,17 +344,18 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				if (tokenLogOut == null || string.IsNullOrEmpty(tokenLogOut.AccessToken))
 				{
 					responseData.ResponseCode = -1;
-					responseData.ResposeMessage = "Đăng nhập thất bại, Kiểm tra lại UserName, Password";
+					responseData.ResposeMessage = "Đăng xuất thất bại, Kiểm tra lại UserName, Password";
+					_loggerManager.LogWarn($"Response LogOutAll_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 					return Ok(responseData);
 				}
 				//Thực hiện xóa Token trong Caching:
-
 				//Bước 1: Giải mã token truyền lên
 				var principal = await _accountRepository.GetPrincipalFromExpiredToken(tokenLogOut.AccessToken);
 				if (principal == null)
 				{
 					responseData.ResponseCode = -1;
 					responseData.ResposeMessage = "Token không hợp lệ";
+					_loggerManager.LogWarn($"Response LogOutAll_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 					return Ok(responseData);
 				}
 
@@ -347,6 +366,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				{
 					responseData.ResponseCode = -1;
 					responseData.ResposeMessage = "Token truyền lên không hợp lệ";
+					_loggerManager.LogWarn($"Response LogOutAll_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 					return Ok(responseData);
 				}
 
@@ -374,16 +394,17 @@ namespace ASP_NetCore_Aesthetics.Controllers
 					}
 					//Xóa trong db
 					await _userSession.DeleleAll_Session(user.UserID);
-					Console.WriteLine($"Đã đang xuất tất cả các thiết bị của {user.UserID}");
 				}
 				responseData.ResponseCode = 1;
 				responseData.ResposeMessage = "Đăng xuất thành công";
+				_loggerManager.LogInfo($"Response LogOutAll_Account: Code={responseData.ResponseCode}, Message={responseData.ResposeMessage}");
 				return Ok(responseData);
 			}
 			catch (Exception ex)
 			{
 				responseData.ResponseCode = -99;
 				responseData.ResposeMessage = ex.Message;
+				_loggerManager.LogError($"LogOut_Account Error: '{ex.Message}'. StackTrace: {ex.StackTrace}");
 				return Ok(responseData);
 			}
 		}
@@ -428,7 +449,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 						UserName = emailName,
 						PassWord = "123456",
 						ReferralCode = null,
-						TypePersson = "Customer"
+						TypePerson = "Customer"
 					};
 					var createResult = await _userRepository.CreateAccount(newAccount);
 					if (createResult.ResponseCode != 1)

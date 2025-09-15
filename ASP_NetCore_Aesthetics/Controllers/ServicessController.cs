@@ -28,7 +28,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			_loggerManager = loggerManager;
 		}
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Servicess", "INSERT")]
+		[Filter_Authorization("Insert_Servicess")]
 		[HttpPost("Insert_Servicess")]
 		public async Task<IActionResult> Insert_Servicess(ServicessRequest servicess)
 		{
@@ -56,7 +56,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Servicess", "UPDATE")]
+		[Filter_Authorization("Update_Servicess")]
 		[HttpPost("Update_Servicess")]
 		public async Task<IActionResult> Update_Servicess(Update_Servicess servicess)
 		{
@@ -84,7 +84,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("ExportServicessToExcel", "VIEW")]
+		[Filter_Authorization("ExportServicessToExcel")]
 		[HttpPost("ExportServicessToExcel")]
 		public async Task<IActionResult> ExportServicessToExcel(ExportSevicessExcel filePath)
 		{
@@ -106,7 +106,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Servicess", "DELETE")]
+		[Filter_Authorization("Delete_Servicess")]
 		[HttpDelete("Delete_Servicess")]
 		public async Task<IActionResult> Delete_Servicess(Delete_Servicess servicess)
 		{

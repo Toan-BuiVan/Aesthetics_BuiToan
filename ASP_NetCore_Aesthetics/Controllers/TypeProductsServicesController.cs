@@ -29,7 +29,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_TypeProductsOfServices", "INSERT")]
+		[Filter_Authorization("Insert_TypeProductsOfServices")]
 		[HttpPost("Insert_TypeProductsOfServices")]
 		public async Task<IActionResult> Insert_TypeProductsOfServices(TypeProductsOfServicesRequest request)
 		{
@@ -55,7 +55,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_TypeProductsOfServices", "UPDATE")]
+		[Filter_Authorization("Update_TypeProductsOfServices")]
 		[HttpPost("Update_TypeProductsOfServices")]
 		public async Task<IActionResult> Update_TypeProductsOfServices(Update_TypeProductsOfServices request)
 		{
@@ -82,7 +82,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Products", "DELETE")]
+		[Filter_Authorization("Delete_Products")]
 		[HttpDelete("Delete_TypeProductsOfServices")]
 		public async Task<IActionResult> Delete_TypeProductsOfServices(Delete_TypeProductsOfServices request)
 		{

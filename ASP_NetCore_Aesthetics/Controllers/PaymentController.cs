@@ -2,6 +2,7 @@
 using Aesthetics.DataAccess.NetCore.Repositories.Interfaces;
 using Aesthetics.DTO.NetCore.DataObject.Model.Momo;
 using Aesthetics.DTO.NetCore.DataObject.Model.VnPay;
+using ASP_NetCore_Aesthetics.Services.IoggerServices;
 using ASP_NetCore_Aesthetics.Services.MomoServices;
 using ASP_NetCore_Aesthetics.Services.SenderMail;
 using ASP_NetCore_Aesthetics.Services.VnPaySevices;
@@ -24,9 +25,11 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		private IProductsRepository _productsRepository;
 		private IEmailSender _emailSender;
 		private IBookingsRepository _bookingsRepository;
+		private readonly ILoggerManager _loggerManager;
 		public PaymentController(IVnPayService vnPayService, IMomoService momoService, 
 			IUserRepository userRepository, IInvoiceRepository invoiceRepository, 
-			IProductsRepository productsRepository, IEmailSender emailSender, IBookingsRepository bookingsRepository)
+			IProductsRepository productsRepository, IEmailSender emailSender, 
+			IBookingsRepository bookingsRepository, ILoggerManager loggerManager)
 		{
 			_vnPayService = vnPayService;
 			_momoService = momoService;
@@ -35,6 +38,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			_productsRepository = productsRepository;
 			_emailSender = emailSender;
 			_bookingsRepository = bookingsRepository;
+			_loggerManager = loggerManager;
 		}
 		[HttpPost("CreatePaymentUrlVnPay")]
 		public IActionResult CreatePaymentUrlVnPay([FromBody] PaymentInformationModel model)
@@ -65,6 +69,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				var match = Regex.Match(orderInfo, @"OrderID:(\d+)");
 				if (!match.Success || !int.TryParse(match.Groups[1].Value, out int orderId))
 				{
+					_loggerManager.LogError("Error CallBackVnPay: Không tìm được OrderID từ vnp_OrderInfo.");
 					return BadRequest("Không tìm được OrderID từ vnp_OrderInfo.");
 				}
 				invoiceId = orderId.ToString();
@@ -115,6 +120,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 								$"\n\nChân thành cảm ơn Quý Khách đã tin tưởng và sử dụng dịch vụ của chúng tôi." +
 								$"\n\nTrân trọng!";
 							await _emailSender.SendEmailAsync(customer.Email, subject, message);
+							_loggerManager.LogError("Successful CallBackVnPay: Gửi Gmail Thành Công");
 						}
 
 						

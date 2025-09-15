@@ -28,7 +28,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Vouchers", "INSERT")]
+		[Filter_Authorization("Insert_Vouchers")]
 		[HttpPost("Insert_Vouchers")]
 		public async Task<IActionResult> Insert_Vouchers(VouchersRequest insert_)
 		{
@@ -56,7 +56,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Vouchers", "UPDATE")]
+		[Filter_Authorization("Update_Vouchers")]
 		[HttpPost("Update_Vouchers")]
 		public async Task<IActionResult> Update_Vouchers(Update_Vouchers update_)
 		{
@@ -84,7 +84,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Vouchers", "DELETE")]
+		[Filter_Authorization("Delete_Vouchers")]
 		[HttpDelete("Delete_Vouchers")]
 		public async Task<IActionResult> Delete_Vouchers(Delete_Vouchers delete_)
 		{
@@ -113,7 +113,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetList_SearchVouchers", "VIEW")]
+		[Filter_Authorization("GetList_SearchVouchers")]
 		[HttpPost("GetList_SearchVouchers")]
 		public async Task<IActionResult> GetList_SearchVouchers(GetList_SearchVouchers getList_) 
 		{

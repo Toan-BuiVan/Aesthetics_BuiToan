@@ -43,7 +43,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Advise", "UPDATE")]
+		[Filter_Authorization("Update_Advise")]
 		[HttpPost("Update_Advise")]
 		public async Task<IActionResult> Update_Advise(Update_Advise update_Advise)
 		{
@@ -61,7 +61,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Advise", "DELETE")]
+		[Filter_Authorization("Delete_Advise")]
 		[HttpDelete("Delete_Advise")]
 		public async Task<IActionResult> Delete_Advise(Update_Advise delete_)
 		{
@@ -79,7 +79,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		//[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("GetList_SearchAdvise", "VIEW")]
+		[Filter_Authorization("GetList_SearchAdvise")]
 		[HttpPost("GetList_SearchAdvise")]
 		public async Task<IActionResult> GetList_SearchAdvise(GetLisr_SearchAdvise getLisr_)
 		{

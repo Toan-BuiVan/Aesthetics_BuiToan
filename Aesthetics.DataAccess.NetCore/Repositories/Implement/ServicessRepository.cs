@@ -598,5 +598,36 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 				throw new Exception($"Error SortListService Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
 			}
 		}
+
+		public async Task<List<Servicess>> SearchServicesAsync(string keywords)
+		{
+			if (string.IsNullOrWhiteSpace(keywords))
+			{
+				return new List<Servicess>();
+			}
+
+			// Tách keywords thành mảng từ
+			var keywordArray = keywords.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+									   .Select(kw => kw.Trim().ToLower())
+									   .ToArray();
+
+			// Query cơ bản: Lấy tất cả sản phẩm có DeleteStatus = 1
+			var query = _context.Servicess.Where(p => p.DeleteStatus == 1).AsQueryable();
+
+			// Áp dụng filter OR: Chỉ cần một keyword match trong tên hoặc mô tả
+			query = query.Where(p =>
+				keywordArray.Any(kw =>
+					EF.Functions.Like(p.ServiceName.ToLower(), "%" + kw + "%") ||
+					EF.Functions.Like(p.Description.ToLower(), "%" + kw + "%")
+				)
+			);
+
+			// Sắp xếp kết quả theo tên A-Z
+			query = query.OrderBy(p => p.ServiceName);
+
+			// Thực thi query async và trả về list
+			return await query.ToListAsync();
+		}
+
 	}
 }

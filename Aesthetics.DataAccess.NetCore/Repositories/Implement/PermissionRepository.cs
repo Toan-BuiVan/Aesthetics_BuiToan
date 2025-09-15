@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Text.Json;
+using System.Data;
 
 namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 {
@@ -35,54 +37,94 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 			var returnData = new ResponsePermission_Loggin();
 			try
 			{
-				var permission = await _context.Permission.Where(s => s.PermissionID == update_.PermissionID).FirstOrDefaultAsync();
-				if (permission != null)
+				if (update_.TypePerson != null && update_.UserID == null 
+					&& update_.FunctionID != null && update_.Status != null)
 				{
-					if (update_.UserID != null)
+					var permissions = await _context.Permission
+						.Where(p => p.Users.TypePerson == update_.TypePerson 
+									&& p.FunctionID == update_.FunctionID)
+						.ToListAsync();
+
+					if (permissions.Any())
 					{
-						var userID = await _context.Users
-							.Where(s => s.UserID == update_.UserID && s.DeleteStatus == 1).FirstOrDefaultAsync();
-						if (update_.IsView != 0 && update_.IsView != 1)
+						foreach (var permission in permissions)
 						{
-							returnData.ResponseCode = -1;
-							returnData.ResposeMessage = "IsView không hợp lệ!";
-							return returnData;
+							permission.Status = update_.Status;
 						}
-						if (update_.IsDelete != 0 && update_.IsDelete != 1)
+						_context.Permission.UpdateRange(permissions);
+						await _context.SaveChangesAsync();
+						returnData.ResponseCode = 1;
+						returnData.ResposeMessage = $"Cập nhật thông tin phân quyền thành " +
+							$"công cho tất cả người dùng có TypePerson = {update_.TypePerson}!";
+						return returnData;
+					}
+					else if (!permissions.Any())
+					{
+						var UserIDs = await _context.Users
+							.Where(u => u.TypePerson == update_.TypePerson && u.DeleteStatus == 1)
+							.Select(u => u.UserID)
+							.ToListAsync();
+						foreach (var item in UserIDs)
 						{
-							returnData.ResponseCode = -1;
-							returnData.ResposeMessage = "IsDelete không hợp lệ!";
-							return returnData;
+							var newPermission = new Permission
+							{
+								UserID = item,
+								FunctionID = update_.FunctionID,
+								Status = 1
+							};
+							_context.Permission.Add(newPermission);
 						}
-						if (update_.IsInsert != 0 && update_.IsInsert != 1)
-						{
-							returnData.ResponseCode = -1;
-							returnData.ResposeMessage = "IsInsert không hợp lệ!";
-							return returnData;
-						}
-						if (update_.IsUpdate != 0 && update_.IsUpdate != 1)
-						{
-							returnData.ResponseCode = -1;
-							returnData.ResposeMessage = "IsUpdate không hợp lệ!";
-							return returnData;
-						}
-						permission.FunctionID = update_.FunctionID;
-						 permission.IsView = update_.IsView;
-						permission.IsDelete = update_.IsDelete ;
-						permission.IsInsert =update_.IsInsert  ;
-						permission.IsUpdate = update_.IsUpdate ;
+						await _context.SaveChangesAsync();
+						returnData.ResponseCode = 1;
+						returnData.ResposeMessage = $"Cập nhật thông tin phân quyền thành " +
+							$"công cho tất cả người dùng có TypePerson = {update_.TypePerson}!";
+						return returnData;
+					}
+					else
+					{
+						returnData.ResponseCode = -1;
+						returnData.ResposeMessage = "Cập nhật Permission thất bại";
+						return returnData;
+					}
+				}
+
+
+				if (update_.TypePerson != null && update_.UserID != null && update_.FunctionID != null && update_.Status != null)
+				{
+					var permission = await _context.Permission
+						.Where(s => s.UserID == update_.UserID && s.FunctionID == update_.FunctionID)
+						.FirstOrDefaultAsync();
+
+					if (permission != null)
+					{
+						permission.Status = update_.Status;
 						_context.Permission.Update(permission);
 						await _context.SaveChangesAsync();
 						returnData.ResponseCode = 1;
-						returnData.ResposeMessage = $"Cập nhật thông tin thành công!";
+						returnData.ResposeMessage = "Cập nhật thông tin phân quyền của người dùng thành công!";
+						return returnData;
+					}
+					else if (permission == null)
+					{
+						var newPermission = new Permission
+						{
+							UserID = update_.UserID,
+							FunctionID = update_.FunctionID,
+							Status = 1
+						};
+						_context.Permission.Add(newPermission);
+						await _context.SaveChangesAsync();
+						returnData.ResponseCode = 1;
+						returnData.ResposeMessage = "Cập nhật thông tin phân quyền của người dùng thành công!";
 						return returnData;
 					}
 					returnData.ResponseCode = -1;
-					returnData.ResposeMessage = "UserID không tồn tại";
+					returnData.ResposeMessage = "Cập nhật thông tin phân quyền của người dùng thất bại";
 					return returnData;
 				}
+
 				returnData.ResponseCode = -1;
-				returnData.ResposeMessage = "PermissionID không tồn tại";
+				returnData.ResposeMessage = "Thiếu thông tin cần thiết để cập nhật (cung cấp PermissionID hoặc TypePerson với FunctionID và Status)";
 				return returnData;
 			}
 			catch (Exception ex)
@@ -126,7 +168,6 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 				throw new Exception($"Error in GetList_SearchPermission Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
 			}
 		}
-
 		public async Task<ResponsePermission_Loggin> Delete_Permission(PermissionRequest _delete)
 		{
 			var returnData = new ResponsePermission_Loggin();
@@ -158,6 +199,109 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 			catch (Exception ex)
 			{
 				throw new Exception($"Error in Delete_Permission Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
+			}
+		}
+		public async Task<string> GetListTyperson()
+		{
+
+			try
+			{
+				var typePersons = await _context.Users
+					.Select(u => u.TypePerson)  
+					.Distinct()                 
+					.ToListAsync();
+				var jsonResult = JsonSerializer.Serialize(typePersons);
+				return jsonResult;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"Error in GetListTyperson Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
+			}
+		}
+		public async Task<GroupBy_Loggin> GroupByPermission(Update_Permission update_)
+		{
+			var returnData = new GroupBy_Loggin();
+			try
+			{
+				var parameters = new DynamicParameters();
+				parameters.Add("@TypePerson", update_.TypePerson);
+
+				var flatResults = await DbConnection.QueryAsync<FlatPermission>("GroupByPermission", parameters);
+				if (flatResults != null && flatResults.Any())
+				{
+					var grouped = flatResults
+						.GroupBy(r => r.Function)
+						.Select(g => new GroupBy
+						{
+							Function = g.Key,
+							listFuncitons = g.Select(item => new ListFuncion
+							{
+								FuncitonID = item.FuncitonID,
+								FuncionName = item.FuncionName,
+								Status = item.Status
+							}).ToList()
+						}).ToList();
+
+					returnData.ResponseCode = 1;
+					returnData.ResposeMessage = "Lấy danh sách Permission thành công!";
+					returnData.Data_Permission = grouped;
+					return returnData;
+				}
+
+				returnData.ResponseCode = 0;
+				returnData.ResposeMessage = "Không tìm thấy Permission nào.";
+				return returnData;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"Error in GroupByPermission Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
+			}
+		}
+		public async Task<GroupBy_Loggin> GetPermissionByUserID(Update_Permission userID)
+		{
+			try
+			{
+				var returnData = new GroupBy_Loggin();
+				try
+				{
+					var parameters = new DynamicParameters();
+					parameters.Add("@UserID", userID.UserID);
+					parameters.Add("@TypePerson", userID.TypePerson);
+
+					var flatResults = await DbConnection.QueryAsync<FlatPermission>("GroupByPermissionByUser", parameters);
+					if (flatResults != null && flatResults.Any())
+					{
+						var grouped = flatResults
+							.GroupBy(r => r.Function)
+							.Select(g => new GroupBy
+							{
+								Function = g.Key,
+								listFuncitons = g.Select(item => new ListFuncion
+								{
+									FuncitonID = item.FuncitonID,
+									FuncionName = item.FuncionName,
+									Status = item.Status
+								}).ToList()
+							}).ToList();
+
+						returnData.ResponseCode = 1;
+						returnData.ResposeMessage = "Lấy danh sách Permission thành công!";
+						returnData.Data_Permission = grouped; 
+						return returnData;
+					}
+
+					returnData.ResponseCode = 0;
+					returnData.ResposeMessage = "Không tìm thấy Permission nào.";
+					return returnData;
+				}
+				catch (Exception ex)
+				{
+					throw new Exception($"Error in GroupByPermission Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"Error in GetPermissionByUserID Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
 			}
 		}
 	}

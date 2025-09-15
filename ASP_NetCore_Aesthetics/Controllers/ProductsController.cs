@@ -28,7 +28,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Products", "INSERT")]
+		[Filter_Authorization("Insert_Products")]
 		[HttpPost("Insert_Products")]
 		public async Task<IActionResult> Insert_Products(ProductRequest product_)
 		{
@@ -60,7 +60,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Products", "UPDATE")]
+		[Filter_Authorization("Update_Products")]
 		[HttpPost("Update_Products")]
 		public async Task<IActionResult> Update_Products(Update_Products product_)
 		{
@@ -88,7 +88,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Products", "DELETE")]
+		[Filter_Authorization("Delete_Products")]
 		[HttpDelete("Delete_Products")]
 		public async Task<IActionResult> Delete_Products(Delete_Products product_)
 		{
@@ -120,7 +120,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("ExportProductsToExcel", "VIEW")]
+		[Filter_Authorization("ExportProductsToExcel")]
 		[HttpPost("ExportProductsToExcel")]
 		public async Task<IActionResult> ExportProductsToExcel(ExportProductExcel filePath)
 		{
@@ -141,7 +141,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[HttpPost("GetSortedPagedProducts")]
-		//[Filter_Authorization("GetSortedPagedProducts", "VIEW")]
+		//[Filter_Authorization("GetSortedPagedProducts")]
 		public async Task<IActionResult> GetSortedPagedProducts(SortListProducts sortList_)
 		{
 			try
@@ -159,7 +159,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		//[Filter_Authorization("GetList_SearchProducts", "VIEW")]
+		//[Filter_Authorization("GetList_SearchProducts")]
 		[HttpPost("GetList_SearchProducts")]
 		public async Task<IActionResult> GetList_SearchProducts(GetList_SearchProducts getList_)
 		{

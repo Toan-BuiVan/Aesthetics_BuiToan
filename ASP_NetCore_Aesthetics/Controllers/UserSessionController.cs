@@ -22,7 +22,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			_loggerManager = loggerManager;
 		}
 
-		[Filter_Authorization("GetList_SearchUserSession", "VIEW")]
+		[Filter_Authorization("GetList_SearchUserSession")]
 		[HttpPost("GetList_SearchUserSession")]
 		public async Task<IActionResult> GetList_SearchUserSession(UserSessionRequest userSession)
 		{

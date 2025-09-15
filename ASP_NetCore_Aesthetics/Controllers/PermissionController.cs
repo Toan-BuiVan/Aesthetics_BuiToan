@@ -34,7 +34,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Permission", "UPDATE")]
+		[Filter_Authorization("Update_Permission")]
 		[HttpPost("Update_Permission")]
 		public async Task<IActionResult> Update_Permission(Update_Permission permission)
 		{
@@ -62,7 +62,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Permission", "DELETE")]
+		[Filter_Authorization("Delete_Permission")]
 		[HttpDelete("Delete_Permission")]
 		public async Task<IActionResult> Delete_Permission(PermissionRequest delete_)
 		{
@@ -90,7 +90,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 
-		[Filter_Authorization("GetList_SearchPermission", "VIEW")]
+		[Filter_Authorization("GetList_SearchPermission")]
 		[HttpPost("GetList_SearchPermission")]
 		public async Task<IActionResult> GetList_SearchPermission(PermissionRequest request)
 		{
@@ -138,10 +138,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 						FunctionName = s.FunctionName,
 						UserID = s.UserID,
 						UserName = s.UserName,
-						ViewPermission = s.ViewPermission,
-						InsertPermission = s.InsertPermission,
-						UpdatePermission = s.UpdatePermission,
-						DeletePermission = s.DeletePermission
+						StatusPermission = s.StatusPermission
 					}).ToList() ?? new List<ResponseData_Permission>();
 
 					//2.2. Chuyển danh sách dịch vụ thành chuỗi JSON để lưu vào cache
@@ -167,6 +164,56 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			catch (Exception ex)
 			{
 				_loggerManager.LogError("{Error GetList_SearchSupplier} Message: " + ex.Message +
+					"|" + "Stack Trace: " + ex.StackTrace);
+				return Ok(ex.Message);
+			}
+		}
+
+		//[Filter_Authorization("GetListTyperson")]
+		[HttpPost("GetListTyperson")]
+		public async Task<IActionResult> GetListTyperson()
+		{
+			try
+			{
+				var responseData = await _permissionRepository.GetListTyperson();
+				return Ok(responseData);
+			}
+			catch (Exception ex)
+			{
+				_loggerManager.LogError("{Error GetListTyperson} Message: " + ex.Message +
+					"|" + "Stack Trace: " + ex.StackTrace);
+				return Ok(ex.Message);
+			}
+		}
+
+		//[Filter_Authorization("GroupByPermission")]
+		[HttpPost("GroupByPermission")]
+		public async Task<IActionResult> GroupByPermission(Update_Permission update_)
+		{
+			try
+			{
+				var responseData = await _permissionRepository.GroupByPermission(update_);
+				return Ok(responseData);
+			}
+			catch (Exception ex)
+			{
+				_loggerManager.LogError("{Error GroupByPermission} Message: " + ex.Message +
+					"|" + "Stack Trace: " + ex.StackTrace);
+				return Ok(ex.Message);
+			}
+		}
+		//[Filter_Authorization("GetPermissionByUserID")]
+		[HttpPost("GetPermissionByUserID")]
+		public async Task<IActionResult> GetPermissionByUserID(Update_Permission userID)
+		{
+			try
+			{
+				var responseData = await _permissionRepository.GetPermissionByUserID(userID);
+				return Ok(responseData);
+			}
+			catch (Exception ex)
+			{
+				_loggerManager.LogError("{Error GetPermissionByUserID} Message: " + ex.Message +
 					"|" + "Stack Trace: " + ex.StackTrace);
 				return Ok(ex.Message);
 			}

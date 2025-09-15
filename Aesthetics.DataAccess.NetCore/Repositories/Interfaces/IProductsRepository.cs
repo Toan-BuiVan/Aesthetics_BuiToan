@@ -41,5 +41,8 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Interfaces
 
 		//10.Update Quantity Product
 		Task UpdateQuantityPro(int productID, int quantity);
+
+		//11.Funciton Get Product By NameProduct
+		Task<List<Products>> SearchProductsAsync(string keywords);
 	}
 }

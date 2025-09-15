@@ -11,14 +11,12 @@ namespace Aesthetics.DTO.NetCore.RequestData
         public int? UserID { get; set; }
     }
 
-    public class Update_Permission
-    {
+	public class Update_Permission
+	{
 		public int? PermissionID { get; set; }
-		public int UserID { get; set; }
-		public int FunctionID { get; set; }
-		public int? IsView { get; set; }
-		public int? IsInsert { get; set; }
-		public int? IsUpdate { get; set; }
-		public int? IsDelete { get; set; }
+		public int? UserID { get; set; }
+		public int? FunctionID { get; set; }
+		public int? Status { get; set; }
+		public string? TypePerson { get; set; }
 	}
 }

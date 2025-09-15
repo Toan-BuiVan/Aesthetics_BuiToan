@@ -55,24 +55,32 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 					rerturnData.ResposeMessage = $"VoucherID: {insert_.VoucherID} không hợp lệ || không tồn tại!";
 					return rerturnData;
 				}
+				var checkWallets = await _context.Wallets
+					.Where(s => s.UserID == insert_.UserID && s.VoucherID == insert_.VoucherID).FirstOrDefaultAsync();
+				if (checkWallets != null)
+				{
+					rerturnData.ResponseCode = -1;
+					rerturnData.ResposeMessage = $"Bạn đã sở hữu VoucherID: {insert_.VoucherID}!";
+					return rerturnData;
+				}
 				// Kiểm tra quyền sử dụng voucher dựa trên RankMember
 				bool isValidRank = false;
-				switch (findUser.RankMember.Trim())
+				switch (findUser.RankMember?.Trim())
 				{
 					case "Diamond":
-						isValidRank = findVouchers.RankMember.Trim() is "Diamond" or "Gold" or "Silver" or "Bronze" or "Default";
+						isValidRank = findVouchers.RankMember?.Trim() is "Diamond" or "Gold" or "Silver" or "Bronze" or "Default";
 						break;
 					case "Gold":
-						isValidRank = findVouchers.RankMember.Trim() is "Gold" or "Silver" or "Bronze" or "Default";
+						isValidRank = findVouchers.RankMember?.Trim() is "Gold" or "Silver" or "Bronze" or "Default";
 						break;
 					case "Silver":
-						isValidRank = findVouchers.RankMember.Trim() is "Silver" or "Bronze" or "Default";
+						isValidRank = findVouchers.RankMember?.Trim() is "Silver" or "Bronze" or "Default";
 						break;
 					case "Bronze":
-						isValidRank = findVouchers.RankMember.Trim() is "Bronze" or "Default";
+						isValidRank = findVouchers.RankMember?.Trim() is "Bronze" or "Default";
 						break;
 					case "Default":
-						isValidRank = findVouchers.RankMember.Trim() is "Default";
+						isValidRank = findVouchers.RankMember?.Trim() is "Default";
 						break;
 					default:
 						isValidRank = false;
@@ -395,7 +403,17 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 					return returnData;
 				}
 
-				// 4. Xử lý đổi điểm theo loại
+				//4.  Kiểm tra tồn tại sở hữu vouchers
+				var checkWallets = await _context.Wallets
+					.Where(s => s.UserID == _redeem.UserID && s.VoucherID == _redeem.VoucherID).FirstOrDefaultAsync();
+				if (checkWallets != null)
+				{
+					returnData.ResponseCode = -1;
+					returnData.ResposeMessage = $"Bạn đã sở hữu VoucherID: {_redeem.VoucherID}!";
+					return returnData;
+				}
+
+				// 5. Xử lý đổi điểm theo loại
 				if (_redeem.PointType == "Accumulated")
 				{
 					if (user.AccumulatedPoints < voucher.AccumulatedPoints)

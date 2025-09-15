@@ -81,14 +81,18 @@ LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/NL
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
-{
-	options.AddPolicy("AllowNextJs", builder =>
-	{
-		builder.AllowAnyOrigin()
-			   .AllowAnyMethod()
-			   .AllowAnyHeader();
-	});
+//builder.Services.AddCors(options =>
+//{
+//	options.AddPolicy("AllowNextJs", builder =>
+//	{
+//		builder.AllowAnyOrigin()
+//			   .AllowAnyMethod()
+//			   .AllowAnyHeader();
+//	});
+//});
+
+builder.Services.AddCors(options => {
+	options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
 //builder.Services.AddAuthentication(options =>

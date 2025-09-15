@@ -28,7 +28,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
         }
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Supplier", "INSERT")]
+		[Filter_Authorization("Insert_Supplier")]
 		[HttpPost("Insert_Supplier")]
         public async Task<IActionResult> Insert_Supplier(SupplierRequest supplier)
         {
@@ -56,7 +56,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
         }
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Supplier", "UPDATE")]
+		[Filter_Authorization("Update_Supplier")]
 		[HttpPost("Update_Supplier")]
 		public async Task<IActionResult> Update_Supplier(Update_Supplier supplier)
 		{
@@ -84,7 +84,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Supplier", "DELETE")]
+		[Filter_Authorization("Delete_Supplier")]
 		[HttpDelete("Delete_Supplier")]
 		public async Task<IActionResult> Delete_Supplier(Delete_Supplier supplier)
 		{
@@ -111,7 +111,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 		//[ServiceFilter(typeof(Filter_CheckToken))]
-		//[Filter_Authorization("GetList_SearchSupplier", "VIEW")]
+		//[Filter_Authorization("GetList_SearchSupplier")]
 		[HttpPost("GetList_SearchSupplier")]
 		public async Task<IActionResult> GetList_SearchSupplier(GetList_SearchSupplier supplier)
 		{

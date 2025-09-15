@@ -356,6 +356,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ASP_NetCore_Aesthetics.Controllers.ChatBoxController",
+    "Method": "ChatBox",
+    "RelativePath": "api/ChatBox/ChatBox",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchText",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "ASP_NetCore_Aesthetics.Controllers.Clinic_StaffController",
     "Method": "Delete_ClinicStaff",
     "RelativePath": "api/Clinic_Staff/Delete_ClinicStaff",
@@ -956,6 +972,48 @@
       {
         "Name": "request",
         "Type": "Aesthetics.DTO.NetCore.RequestData.PermissionRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ASP_NetCore_Aesthetics.Controllers.PermissionController",
+    "Method": "GetListTyperson",
+    "RelativePath": "api/Permission/GetListTyperson",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ASP_NetCore_Aesthetics.Controllers.PermissionController",
+    "Method": "GetPermissionByUserID",
+    "RelativePath": "api/Permission/GetPermissionByUserID",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userID",
+        "Type": "Aesthetics.DTO.NetCore.RequestData.Update_Permission",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ASP_NetCore_Aesthetics.Controllers.PermissionController",
+    "Method": "GroupByPermission",
+    "RelativePath": "api/Permission/GroupByPermission",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "update_",
+        "Type": "Aesthetics.DTO.NetCore.RequestData.Update_Permission",
         "IsRequired": true
       }
     ],

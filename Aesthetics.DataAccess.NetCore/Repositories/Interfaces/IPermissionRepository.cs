@@ -13,5 +13,8 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Interfaces
         Task<ResponsePermission_Loggin> GetList_SearchPermission(PermissionRequest request);
         Task<ResponsePermission_Loggin> Update_Permission(Update_Permission update_);
         Task<ResponsePermission_Loggin> Delete_Permission(PermissionRequest _delete);
+        Task<string> GetListTyperson();
+        Task<GroupBy_Loggin> GroupByPermission(Update_Permission update_);
+        Task<GroupBy_Loggin> GetPermissionByUserID(Update_Permission userID);
     }
 }

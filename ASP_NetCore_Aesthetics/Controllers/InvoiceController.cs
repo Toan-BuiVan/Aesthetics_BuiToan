@@ -33,7 +33,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Invoice", "INSERT")]
+		[Filter_Authorization("Insert_Invoice")]
 		[HttpPost("Insert_Invoice")]
 		public async Task<IActionResult> Insert_Invoice(InvoiceRequest insert_)
 		{
@@ -79,7 +79,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Invoice", "DELETE")]
+		[Filter_Authorization("Delete_Invoice")]
 		[HttpDelete("Delete_Invoice")]
 		public async Task<IActionResult> Delete_Invoice(Delete_Invoice delete_)
 		{
@@ -106,7 +106,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("UpdateOrderStatus", "UPDATE")]
+		[Filter_Authorization("UpdateOrderStatus")]
 		[HttpPost("UpdateOrderStatus")]
 		public async Task<IActionResult> UpdateOrderStatus(UpdateOrderStatus orderStatus)
 		{
@@ -130,7 +130,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("ProcessDirectPayment", "UPDATE")]
+		[Filter_Authorization("ProcessDirectPayment")]
 		[HttpPost("ProcessDirectPayment")]
 		public async Task<IActionResult> ProcessDirectPayment(Delete_Invoice delete_)
 		{
@@ -152,7 +152,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("ConfirmCodPaymentSuccess", "UPDATE")]
+		[Filter_Authorization("ConfirmCodPaymentSuccess")]
 		[HttpPost("ConfirmCodPaymentSuccess")]
 		public async Task<IActionResult> ConfirmCodPaymentSuccess(Delete_Invoice delete_)
 		{
@@ -174,7 +174,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 
-		[Filter_Authorization("GetList_SearchInvoice", "VIEW")]
+		[Filter_Authorization("GetList_SearchInvoice")]
 		[HttpPost("GetList_SearchInvoice")]
 		public async Task<IActionResult> GetList_SearchInvoice(GetList_Invoice getList_)
 		{
@@ -217,7 +217,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				return Ok(ex.Message);
 			}
 		}
-		[Filter_Authorization("GetList_SearchInvoiceDetail", "VIEW")]
+		[Filter_Authorization("GetList_SearchInvoiceDetail")]
 		[HttpPost("GetList_SearchInvoiceDetail")]
 		public async Task<IActionResult> GetList_SearchInvoiceDetail(GetList_InvoiceDetail getList_)
 		{

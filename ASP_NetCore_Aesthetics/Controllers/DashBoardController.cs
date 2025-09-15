@@ -24,7 +24,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			_dashBoardRepository = dashBoardRepository;
 			_loggerManager = loggerManager;
 		}
-		[Filter_Authorization("GetMonthlyStatistics", "VIEW")]
+		[Filter_Authorization("GetMonthlyStatistics")]
 		[HttpPost("GetMonthlyStatistics")]
 		public async Task<IActionResult> GetMonthlyStatistics(DashBoardRequest dashBoard)
 		{
@@ -46,7 +46,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetMonthlyImportStatistics", "VIEW")]
+		[Filter_Authorization("GetMonthlyImportStatistics")]
 		[HttpPost("GetMonthlyImportStatistics")]
 		public async Task<IActionResult> GetMonthlyImportStatistics(DashBoardRequest dashBoard)
 		{
@@ -68,7 +68,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetTopProductsBySales", "VIEW")]
+		[Filter_Authorization("GetTopProductsBySales")]
 		[HttpPost("GetTopProductsBySales")]
 		public async Task<IActionResult> GetTopProductsBySales(DashBoardRequest dashBoard)
 		{
@@ -90,7 +90,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetTopServicesBySales", "VIEW")]
+		[Filter_Authorization("GetTopServicesBySales")]
 		[HttpPost("GetTopServicesBySales")]
 		public async Task<IActionResult> GetTopServicesBySales(DashBoardRequest dashBoard)
 		{
@@ -112,7 +112,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetReturningCustomerRate", "VIEW")]
+		[Filter_Authorization("GetReturningCustomerRate")]
 		[HttpPost("GetReturningCustomerRate")]
 		public async Task<IActionResult> GetReturningCustomerRate()
 		{
@@ -132,7 +132,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("CountProcessedOrders", "VIEW")]
+		[Filter_Authorization("CountProcessedOrders")]
 		[HttpPost("CountProcessedOrders")]
 		public async Task<IActionResult> CountProcessedOrders(DashBoardRequest dashBoard)
 		{
@@ -154,7 +154,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetTotalBookings", "VIEW")]
+		[Filter_Authorization("GetTotalBookings")]
 		[HttpPost("GetTotalBookings")]
 		public async Task<IActionResult> GetTotalBookings(DashBoardRequest dashBoard)
 		{
@@ -176,7 +176,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetTopEmployeesByQuantityProduct", "VIEW")]
+		[Filter_Authorization("GetTopEmployeesByQuantityProduct")]
 		[HttpPost("GetTopEmployeesByQuantityProduct")]
 		public async Task<IActionResult> GetTopEmployeesByQuantityProduct(DashBoardRequest dashBoard)
 		{
@@ -198,7 +198,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetTopEmployeesByQuantityServices", "VIEW")]
+		[Filter_Authorization("GetTopEmployeesByQuantityServices")]
 		[HttpPost("GetTopEmployeesByQuantityServices")]
 		public async Task<IActionResult> GetTopEmployeesByQuantityServices(DashBoardRequest dashBoard)
 		{
@@ -220,7 +220,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetMonthlyBookingReport", "VIEW")]
+		[Filter_Authorization("GetMonthlyBookingReport")]
 		[HttpPost("GetMonthlyBookingReport")]
 		public async Task<IActionResult> GetMonthlyBookingReport(DashBoardRequest dashBoard)
 		{
@@ -242,7 +242,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetTop3ProductTypesByRevenue", "VIEW")]
+		[Filter_Authorization("GetTop3ProductTypesByRevenue")]
 		[HttpPost("GetTop3ProductTypesByRevenue")]
 		public async Task<IActionResult> GetTop3ProductTypesByRevenue(DashBoardRequest dashBoard)
 		{
@@ -264,7 +264,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetTop3ClinicsByRevenue", "VIEW")]
+		[Filter_Authorization("GetTop3ClinicsByRevenue")]
 		[HttpPost("GetTop3ClinicsByRevenue")]
 		public async Task<IActionResult> GetTop3ClinicsByRevenue(DashBoardRequest dashBoard)
 		{
@@ -286,7 +286,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetVoucherStatistics", "VIEW")]
+		[Filter_Authorization("GetVoucherStatistics")]
 		[HttpPost("GetVoucherStatistics")]
 		public async Task<IActionResult> GetVoucherStatistics(DashBoardRequest dashBoard)
 		{

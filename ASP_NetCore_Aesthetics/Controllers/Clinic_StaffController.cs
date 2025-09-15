@@ -27,7 +27,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			_loggerManager = loggerManager;
 		}
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_ClinicStaff", "INSERT")]
+		[Filter_Authorization("Insert_ClinicStaff")]
 		[HttpPost("Insert_ClinicStaff")]
 		public async Task<IActionResult> Insert_ClinicStaff(Clinic_StaffRequest clinic_Staff)
 		{
@@ -55,7 +55,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_ClinicStaff", "UPDATE")]
+		[Filter_Authorization("Update_ClinicStaff")]
 		[HttpPost("Update_ClinicStaff")]
 		public async Task<IActionResult> Update_ClinicStaff(Clinic_StaffUpdate clinic_Staff)
 		{
@@ -83,7 +83,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_ClinicStaff", "DELETE")]
+		[Filter_Authorization("Delete_ClinicStaff")]
 		[HttpDelete("Delete_ClinicStaff")]
 		public async Task<IActionResult> Delete_ClinicStaff(Clinic_StaffDelete clinic_Staff)
 		{
@@ -110,7 +110,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetList_SearchClinicStaff", "VIEW")]
+		[Filter_Authorization("GetList_SearchClinicStaff")]
 		[HttpPost("GetList_SearchClinicStaff")]
 		public async Task<IActionResult> GetList_SearchClinicStaff(Clinic_StaffGetList getList_)
 		{

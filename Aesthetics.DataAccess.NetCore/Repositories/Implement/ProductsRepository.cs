@@ -11,6 +11,7 @@ using BE_102024.DataAces.NetCore.Dapper;
 using ClosedXML.Excel;
 using Dapper;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -26,7 +27,6 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 	{
 		private DB_Context _context;
 		private IConfiguration _configuration;
-		private static List<Products> _listProducts;
 		private ISupplierRepository _supplierRepository;
 		private IUserRepository _userRepository;
 		public ProductsRepository(DB_Context context, IConfiguration configuration, 
@@ -35,7 +35,7 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 		{
 			_context = context;
 			_configuration = configuration;
-			_listProducts = new List<Products>();
+			//_listProducts = new List<Products>();
 			_supplierRepository = supplierRepository;
 			_userRepository = userRepository;
 		}
@@ -745,6 +745,36 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 			{
 				throw new Exception($"Error SortListProduct Message: {ex.Message} | StackTrace: {ex.StackTrace}", ex);
 			}
+		}
+
+		public async Task<List<Products>> SearchProductsAsync(string keywords)
+		{
+			if (string.IsNullOrWhiteSpace(keywords))
+			{
+				return new List<Products>();
+			}
+
+			// Tách keywords thành mảng từ
+			var keywordArray = keywords.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+									   .Select(kw => kw.Trim().ToLower())
+									   .ToArray();
+
+			// Query cơ bản: Lấy tất cả sản phẩm có DeleteStatus = 1
+			var query = _context.Products.Where(p => p.DeleteStatus == 1).AsQueryable();
+
+			// Áp dụng filter OR: Chỉ cần một keyword match trong tên hoặc mô tả
+			query = query.Where(p =>
+				keywordArray.Any(kw =>
+					EF.Functions.Like(p.ProductName.ToLower(), "%" + kw + "%") ||
+					EF.Functions.Like(p.ProductDescription.ToLower(), "%" + kw + "%")
+				)
+			);
+
+			// Sắp xếp kết quả theo tên A-Z
+			query = query.OrderBy(p => p.ProductName);
+
+			// Thực thi query async và trả về list
+			return await query.ToListAsync();
 		}
 	}
 }

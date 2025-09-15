@@ -680,6 +680,27 @@
         }
       }
     },
+    "/api/ChatBox/ChatBox": {
+      "post": {
+        "tags": [
+          "ChatBox"
+        ],
+        "parameters": [
+          {
+            "name": "searchText",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Clinic/Insert_Clinic": {
       "post": {
         "tags": [
@@ -1852,6 +1873,80 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/PermissionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Permission/GetListTyperson": {
+      "post": {
+        "tags": [
+          "Permission"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Permission/GroupByPermission": {
+      "post": {
+        "tags": [
+          "Permission"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Permission"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Permission"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Permission"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Permission/GetPermissionByUserID": {
+      "post": {
+        "tags": [
+          "Permission"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Permission"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Permission"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Update_Permission"
               }
             }
           }
@@ -4125,30 +4220,21 @@
           },
           "userID": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "functionID": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
-          "isView": {
+          "status": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "isInsert": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "isUpdate": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "isDelete": {
-            "type": "integer",
-            "format": "int32",
+          "typePerson": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -4347,7 +4433,7 @@
             "type": "string",
             "nullable": true
           },
-          "typePersson": {
+          "typePerson": {
             "type": "string",
             "nullable": true
           }

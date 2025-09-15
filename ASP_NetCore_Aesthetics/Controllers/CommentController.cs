@@ -31,7 +31,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Comment", "INSERT")]
+		[Filter_Authorization("Insert_Comment")]
 		[HttpPost("Insert_Comment")]
 		public async Task<IActionResult> Insert_Comment(CommnetRequest _comment)
 		{
@@ -56,7 +56,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Comment", "UPDATE")]
+		[Filter_Authorization("Update_Comment")]
 		[HttpPost("Update_Comment")]
 		public async Task<IActionResult> Update_Comment(Update_Comment _comment)
 		{
@@ -83,7 +83,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Comment", "DELETE")]
+		[Filter_Authorization("Delete_Comment")]
 		[HttpDelete("Delete_Comment")]
 		public async Task<IActionResult> Delete_Comment(Delete_Comment _comment)
 		{
@@ -108,7 +108,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		//[Filter_Authorization("GetList_SearchComment", "VIEW")]
+		//[Filter_Authorization("GetList_SearchComment")]
 		[HttpPost("GetList_SearchComment")]
 		public async Task<IActionResult> GetList_SearchComment(GetList_SearchCommnet _searchComment)
 		{

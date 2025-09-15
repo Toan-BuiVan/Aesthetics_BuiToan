@@ -22,7 +22,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Booking", "INSERT")]
+		[Filter_Authorization("Insert_Booking")]
 		[HttpPost("Insert_Booking")]
 		public async Task<IActionResult> Insert_Booking(BookingRequest request)
 		{
@@ -46,7 +46,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("UpdateBooking_Assignment", "UPDATE")]
+		[Filter_Authorization("UpdateBooking_Assignment")]
 		[HttpPost("UpdateBooking_Assignment")]
 		public async Task<IActionResult> UpdateBooking_Assignment(UpdateBooking_Assignment updateBooking_)
 		{
@@ -70,7 +70,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("UpdateQuantity", "UPDATE")]
+		[Filter_Authorization("UpdateQuantity")]
 		[HttpPost("UpdateQuantity")]
 		public async Task<IActionResult> UpdateQuantity(UpdateQuantityBookingAssignment updateBooking_)
 		{
@@ -94,7 +94,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Booking", "DELETE")]
+		[Filter_Authorization("Delete_Booking")]
 		[HttpDelete("Delete_Booking")]
 		public async Task<IActionResult> Delete_Booking(Delete_Booking delete_)
 		{
@@ -103,12 +103,11 @@ namespace ASP_NetCore_Aesthetics.Controllers
 				//1. Delete_Booking
 				var responseData = await _bookingRepository.Delete_Booking(delete_);
 
-				//2. Lưu log Insert_Booking Request 
+				//2. Lưu log Delete_Booking Request 
 				_loggerManager.LogInfo("Delete_Booking Request: " + JsonConvert.SerializeObject(delete_));
 
 				//3. Lưu log Delete_Booking_Assignment Request 
 				_loggerManager.LogInfo("Delete_Booking_Assignment Request: " + JsonConvert.SerializeObject(responseData.Booking_AssData));
-
 
 				return Ok(responseData);
 			}
@@ -120,7 +119,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetList_SearchBooking", "VIEW")]
+		[Filter_Authorization("GetList_SearchBooking")]
 		[HttpPost("GetList_SearchBooking")]
 		public async Task<IActionResult> GetList_SearchBooking(GetList_SearchBooking getList_)
 		{
@@ -142,7 +141,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetList_SearchBooking_Assignment", "VIEW")]
+		[Filter_Authorization("GetList_SearchBooking_Assignment")]
 		[HttpPost("GetList_SearchBooking_Assignment")]
 		public async Task<IActionResult> GetList_SearchBooking_Assignment(GetList_SearchBooking_Assignment getList_)
 		{
@@ -165,7 +164,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_BookingSer_Assi", "INSERT")]
+		[Filter_Authorization("Insert_BookingSer_Assi")]
 		[HttpPost("Insert_BookingSer_Assi")]
 		public async Task<IActionResult> Insert_BookingSer_Assi(Insert_Booking_Services request)
 		{
@@ -190,7 +189,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_BookingSer_Assi", "DELETE")]
+		[Filter_Authorization("Delete_BookingSer_Assi")]
 		[HttpDelete("Delete_BookingSer_Assi")]
 		public async Task<IActionResult> Delete_BookingSer_Assi(Delete_Booking_Services delete_)
 		{

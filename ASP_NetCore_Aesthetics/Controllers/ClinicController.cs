@@ -32,7 +32,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Clinic", "INSERT")]
+		[Filter_Authorization("Insert_Clinic")]
 		[HttpPost("Insert_Clinic")]
 		public async Task<IActionResult> Insert_Clinic(ClinicRequest clinic)
 		{
@@ -60,7 +60,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_Clinic", "UPDATE")]
+		[Filter_Authorization("Update_Clinic")]
 		[HttpPost("Update_Clinic")]
 		public async Task<IActionResult> Update_Clinic(Update_Clinic update_)
 		{
@@ -88,7 +88,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Clinic", "DELETE")]
+		[Filter_Authorization("Delete_Clinic")]
 		[HttpDelete("Delete_Clinic")]
 		public async Task<IActionResult> Delete_Clinic(Delete_Clinic delete_)
 		{
@@ -119,7 +119,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		//[Filter_Authorization("GetList_SearchClinic", "VIEW")]
+		[Filter_Authorization("GetList_SearchClinic")]
 		[HttpPost("GetList_SearchClinic")]
 		public async Task<IActionResult> GetList_SearchClinic(GetList_Search getList_)
 		{

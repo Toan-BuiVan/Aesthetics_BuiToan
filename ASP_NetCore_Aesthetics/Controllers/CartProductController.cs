@@ -25,7 +25,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_CartProduct", "INSERT")]
+		[Filter_Authorization("Insert_CartProduct")]
 		[HttpPost("Insert_CartProduct")]
 		public async Task<IActionResult> Insert_CartProduct(Cart_ProductRequest insert_)
 		{
@@ -48,7 +48,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Update_CartProduct", "UPDATE")]
+		[Filter_Authorization("Update_CartProduct")]
 		[HttpPost("Update_CartProduct")]
 		public async Task<IActionResult> Update_CartProduct(Update_Cart_ProductRequest update_)
 		{
@@ -71,7 +71,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_CartProduct", "DELETE")]
+		[Filter_Authorization("Delete_CartProduct")]
 		[HttpDelete("Delete_CartProduct")]
 		public async Task<IActionResult> Delete_CartProduct(Delete_Cart_ProductRequest delete_)
 		{
@@ -93,7 +93,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetList_SearchCartProduct", "VIEW")]
+		[Filter_Authorization("GetList_SearchCartProduct")]
 		[HttpPost("GetList_SearchCartProduct")]
 		public async Task<IActionResult> GetList_SearchCartProduct(GetList_SearchCart_ProductRequest getList_SearchCart_)
 		{

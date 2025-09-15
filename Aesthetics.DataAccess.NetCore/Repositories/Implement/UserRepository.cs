@@ -89,7 +89,7 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 				var referralCodeUser = await GenerateUniqueReferralCode();
 
 				string typePerson;
-				switch (account.TypePersson)
+				switch (account.TypePerson)
 				{
 					case "Customer":
 						typePerson = "Customer";
@@ -464,10 +464,7 @@ namespace Aesthetics.DataAccess.NetCore.Repositories.Implement
 								PermissionID = permission.PermissionID,
 								UserID = permission.UserID,
 								FunctionID = permission.FunctionID,
-								IsView = permission.IsView,
-								IsInsert = permission.IsInsert,
-								IsUpdate = permission.IsUpdate,
-								IsDelete = permission.IsDelete
+								Status = permission.Status
 							});
 						}
 					}

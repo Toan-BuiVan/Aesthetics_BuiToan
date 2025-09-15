@@ -26,7 +26,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Insert_Wallets", "INSERT")]
+		[Filter_Authorization("Insert_Wallets")]
 		[HttpPost("Insert_Wallets")]
 		public async Task<IActionResult> Insert_Wallets(WalletsRequest insert_)
 		{
@@ -49,7 +49,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("RedeemPointsForVoucher", "INSERT")]
+		[Filter_Authorization("RedeemPointsForVoucher")]
 		[HttpPost("RedeemPointsForVoucher")]
 		public async Task<IActionResult> RedeemPointsForVoucher(RedeemVouchers _redeem)
 		{
@@ -93,7 +93,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 		//}
 
 		[ServiceFilter(typeof(Filter_CheckToken))]
-		[Filter_Authorization("Delete_Wallets", "DELETE")]
+		[Filter_Authorization("Delete_Wallets")]
 		[HttpDelete("Delete_Wallets")]
 		public async Task<IActionResult> Delete_Wallets(Delete_Wallest delete_)
 		{
@@ -115,7 +115,7 @@ namespace ASP_NetCore_Aesthetics.Controllers
 			}
 		}
 
-		[Filter_Authorization("GetList_SearchWallets", "VIEW")]
+		[Filter_Authorization("GetList_SearchWallets")]
 		[HttpPost("GetList_SearchWallets")]
 		public async Task<IActionResult> GetList_SearchWallets(GetList_SearchWallets getList_)
 		{
